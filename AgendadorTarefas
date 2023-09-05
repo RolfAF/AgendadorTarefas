@@ -1,0 +1,27 @@
+package com.mycompany.agendadortarefas;
+
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class AgendadorTarefas {
+
+    public static void main(String[] args) throws InterruptedException {
+        //Utilizando ScheduledThreadPoolExecutor para utilizar um pool de threads e agendar a execução de tarefas
+        ScheduledThreadPoolExecutor pool = new ScheduledThreadPoolExecutor(2);
+        //Duas threads são criadas, e quatro tarefas aguardam vaga para execução
+        Runnable tarefa1 = new Tarefa("Tarefa 1");
+        Runnable tarefa2 = new Tarefa("Tarefa 2");
+        Runnable tarefa3 = new Tarefa("Tarefa 3");
+        Runnable tarefa4 = new Tarefa("Tarefa 4");
+        System.out.println("Iniciando tarefas...");
+        //Tarefas são agendadas em sequencia, com intervalo de um segundo
+        pool.schedule(tarefa1, 1, TimeUnit.SECONDS);
+        pool.schedule(tarefa2, 2, TimeUnit.SECONDS);
+        pool.schedule(tarefa3, 3, TimeUnit.SECONDS);
+        pool.schedule(tarefa4, 4, TimeUnit.SECONDS);
+        //Aguarda o termino da execução de tarefas, e fecha o pool de threads
+        pool.shutdown();
+        pool.awaitTermination(30, TimeUnit.SECONDS);
+        System.out.println("Todas as tarefas finalizadas.");
+    }
+}
